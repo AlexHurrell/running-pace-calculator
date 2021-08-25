@@ -1,0 +1,18 @@
+<mat-stepper linear #stepper orientation="vertical">
+  <mat-step [stepControl]="firstFormGroup">
+    <ng-template matStepLabel>Distance</ng-template>
+
+    <div>
+      <button color="primary" mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <ng-template matStepLabel>Finish Time</ng-template>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step> </mat-step>
+</mat-stepper>
