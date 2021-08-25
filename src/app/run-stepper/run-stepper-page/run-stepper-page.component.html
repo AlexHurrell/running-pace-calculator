@@ -1,3 +1,53 @@
+<h3>What do you want to calculate? Pace, distance or time?</h3>
+<p></p>
+<!-- <mat-form-field appearance="fill">
+  <mat-select>
+    <mat-option *ngFor="let choice of choices" [value]="choice">
+      {{ choice }}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
+
+<div>
+  <mat-radio-group
+    aria-labelledby="example-radio-group-label"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    [(ngModel)]="choice"
+  >
+    <mat-radio-button [value]="choices.Distance">
+      <mat-card [class.highlight]="choice === choices.Distance">
+        <mat-card-title>Distance</mat-card-title>
+        <mat-card-subtitle
+          >I know my desired pace and time limit.</mat-card-subtitle
+        >
+      </mat-card>
+    </mat-radio-button>
+    <mat-radio-button [value]="choices.Pace">
+      <mat-card [class.highlight]="choice === choices.Pace">
+        <mat-card-title>Pace</mat-card-title>
+        <mat-card-subtitle>
+          I know my distance and desired time</mat-card-subtitle
+        >
+      </mat-card>
+    </mat-radio-button>
+    <mat-radio-button [value]="choices.Time">
+      <mat-card [class.highlight]="choice === choices.Time">
+        <mat-card-title>Time</mat-card-title>
+        <mat-card-subtitle
+          >I know my distance and desired pace.</mat-card-subtitle
+        >
+      </mat-card>
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <div fxLayout="row" fxLayoutAlign="end center" class="mt-3">
+    <button [disabled]="!choice" mat-raised-button>Next</button>
+  </div>
+</div>
+
+<!-- <p>Enter two out of three variables to calculate</p>
+
 <mat-stepper linear #stepper orientation="vertical">
   <mat-step [stepControl]="firstFormGroup">
     <ng-template matStepLabel>Distance</ng-template>
@@ -7,12 +57,19 @@
     </div>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
-    <ng-template matStepLabel>Finish Time</ng-template>
+    <ng-template matStepLabel>Time</ng-template>
 
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
-  <mat-step> </mat-step>
-</mat-stepper>
+  <mat-step [stepControl]="thirdFormGroup">
+    <ng-template matStepLabel>Pace</ng-template>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+</mat-stepper> -->

@@ -4,3 +4,20 @@
   max-width: 1200px;
   margin: auto !important;
 }
+
+.example-radio-group {
+  display: flex;
+  flex-direction: row;
+}
+
+::ng-deep .mat-radio-button .mat-radio-container {
+  display: none;
+}
+
+.icon-display {
+  transform: scale(5);
+}
+
+.highlight {
+  background-color: #ffa500;
+}
