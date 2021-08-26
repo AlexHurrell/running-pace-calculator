@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
-import { RunStepperPageComponent } from './run-stepper-page/run-stepper-page.component';
+import { RunSelectionPageComponent } from './run-selection-page/run-selection-page.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,9 +13,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CalculatePageComponent } from './calculate-page/calculate-page.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [RunStepperPageComponent],
+  declarations: [RunSelectionPageComponent, CalculatePageComponent],
   imports: [
     CommonModule,
     MatStepperModule,
@@ -31,6 +33,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FormsModule,
     FlexLayoutModule,
     MatCardModule,
+    RouterModule,
   ],
 })
 export class RunStepperModule {}

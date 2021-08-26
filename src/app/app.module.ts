@@ -1,4 +1,4 @@
-import { RunStepperModule } from './run-stepper/run-stepper.module';
+import { RunStepperModule } from './modules/run-stepper/run-stepper.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
