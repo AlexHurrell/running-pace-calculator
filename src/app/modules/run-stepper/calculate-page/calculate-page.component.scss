@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.small-field {
+  max-width: 100px;
+}
+
+.time mat-form-field {
+  margin-right: 2em;
+}
+
+.small-field {
+  margin-right: 2em;
+}
+
+.input-area {
+  padding: 1em;
+  flex: 1 1;
+}
+
+.results-area {
+  padding: 1em;
+  flex: 1 1;
+}

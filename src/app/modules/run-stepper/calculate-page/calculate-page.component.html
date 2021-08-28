@@ -1,1 +1,97 @@
-<p>calculate-page works!</p>
+<div class="input-area">
+  <section class="units">
+    <h4>Units</h4>
+    <mat-radio-group>
+      <mat-radio-button class="small-field" value="mile"
+        >min/km</mat-radio-button
+      >
+      <mat-radio-button class="small-field" value="km"
+        >min/mile</mat-radio-button
+      >
+    </mat-radio-group>
+  </section>
+
+  <section class="distance">
+    <h4>Distance</h4>
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Custom</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+    or
+    <mat-form-field appearance="fill">
+      <mat-label>Classic</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let distance of distances"
+          [value]="distance.length"
+        >
+          {{ distance.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section class="time">
+    <h4>Time</h4>
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Hours</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Minutes</mat-label>
+      <input matInput max="59" type="number" />
+    </mat-form-field>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Seconds</mat-label>
+      <input matInput max="59" type="number" />
+    </mat-form-field>
+  </section>
+
+  <section class="pace">
+    <h4>Pace</h4>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Minutes</mat-label>
+      <input matInput max="59" type="number" />
+    </mat-form-field>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Seconds</mat-label>
+      <input matInput max="59" type="number" />
+    </mat-form-field>
+
+    <ng-container *ngIf="km; else miles"> per km </ng-container>
+    <ng-template #miles> per mile</ng-template>
+  </section>
+</div>
+
+<mat-divider [vertical]="true"></mat-divider>
+
+<div class="results-area">
+  <h2>
+    At a pace of
+    <h1>* per km</h1>
+    over
+    <h1>* hours, * minutes and * seconds</h1>
+    you would travel
+    <h1>** km.</h1>
+  </h2>
+  <h1>
+    At a pace of
+    <h1>* per km</h1>
+    over
+    <h1>* km</h1>
+    it would take you
+    <h1>** minutes.</h1>
+  </h1>
+  <h2>
+    To run
+    <h1>* km</h1>
+    in
+    <h1>* minutes</h1>
+    your pace would need to be
+    <h1>* per km.</h1>
+  </h2>
+</div>

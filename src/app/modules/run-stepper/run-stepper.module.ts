@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CalculatePageComponent } from './calculate-page/calculate-page.component';
 import { RouterModule } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [RunSelectionPageComponent, CalculatePageComponent],
@@ -34,6 +35,7 @@ import { RouterModule } from '@angular/router';
     FlexLayoutModule,
     MatCardModule,
     RouterModule,
+    MatDividerModule,
   ],
 })
 export class RunStepperModule {}
