@@ -27,6 +27,7 @@ interface calculationForm {
   };
   customDistance: string;
   classicDistance: string;
+  paceUnits: string;
 }
 
 type calculationFormControls = {
@@ -68,6 +69,8 @@ export class CalculatePageComponent implements OnInit {
     },
   ];
 
+  paceUnits = ['km', 'mile'];
+
   choices = Choices;
 
   choice: Choices | null | string;
@@ -93,7 +96,7 @@ export class CalculatePageComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       units: ['km', Validators.required],
-      customDistance: ['', Validators.required],
+      customDistance: ['', this.isRequired(Choices.Distance, Choices.Pace)],
       classicDistance: '',
       time: this.formBuilder.group(
         {
@@ -101,22 +104,25 @@ export class CalculatePageComponent implements OnInit {
           minutes: '',
           seconds: '',
         },
-        { validator: this.oneRequired(Choices.Distance) }
+        { validator: this.oneRequired(Choices.Pace, Choices.Time) }
       ),
       pace: this.formBuilder.group(
         {
-          paceMinutes: '',
-          paceSeconds: '',
+          minutes: '',
+          seconds: '',
         },
         { validator: this.oneRequired(Choices.Pace) }
       ),
+      paceUnits: 'km',
     });
 
     this.form.valueChanges.subscribe((formValue) => {
+      console.log(this.form.valid);
       if (this.form.valid) {
         if (this.choice === Choices.Pace) {
           this.result = this.paceResult(formValue);
         } else if (this.choice === Choices.Distance) {
+          this.result = this.distanceResult(formValue);
         } else {
         }
       } else {
@@ -125,9 +131,14 @@ export class CalculatePageComponent implements OnInit {
     });
   }
 
-  oneRequired(choice: Choices) {
+  isRequired(choice: Choices, choice2: Choices) {
+    if (choice !== this.choice && choice2 !== this.choice) return null;
+    return '';
+  }
+
+  oneRequired(choice: Choices, choice2?: Choices) {
     return (formGroup: FormGroup) => {
-      if (choice === this.choice) return null;
+      if (choice === this.choice || choice2 === this.choice) return null;
       return Object.keys(formGroup.value).some((key) => !!formGroup.value[key])
         ? null
         : { oneRequired: '' };
@@ -151,5 +162,28 @@ export class CalculatePageComponent implements OnInit {
       (paceMinutes ? paceMinutes + ':' : '') +
       (paceSeconds ? paceSeconds : '')
     );
+  }
+
+  private distanceResult(formValue: calculationForm): string {
+    const secondsTime =
+      Number(formValue.time.hours) * 3600 +
+      Number(formValue.time.minutes) * 60 +
+      Number(formValue.time.seconds);
+
+    const paceTime =
+      (Number(formValue.pace.minutes) * 60 + Number(formValue.pace.seconds)) /
+      (formValue.paceUnits === 'km'
+        ? formValue.units === 'km'
+          ? 1
+          : 0.621371
+        : formValue.units === 'mile'
+        ? 1
+        : 1.60934);
+
+    return String(secondsTime / paceTime);
+  }
+
+  templatePadStart(value: number) {
+    return String(value).padStart(2, '0');
   }
 }
