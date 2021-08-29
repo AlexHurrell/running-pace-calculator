@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-enum Choices {
+export enum Choices {
   Distance = 'distance',
   Time = 'time',
   Pace = 'pace',
