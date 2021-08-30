@@ -1,7 +1,11 @@
 <div class="input-area" [formGroup]="form">
-  <section class="units">
-    <h4>Units</h4>
-    <mat-radio-group formControlName="units">
+  <section class="units mb-4">
+    <h4>Distance Units</h4>
+    <mat-radio-group
+      (change)="classicDistance()"
+      [(ngModel)]="distanceUnit"
+      [ngModelOptions]="{ standalone: true }"
+    >
       <mat-radio-button class="small-field" value="km">min/km</mat-radio-button>
       <mat-radio-button class="small-field" value="mile"
         >min/mile</mat-radio-button
@@ -16,12 +20,22 @@
     <h4>Distance</h4>
     <mat-form-field class="small-field" appearance="fill">
       <mat-label>Custom</mat-label>
-      <input matInput min="0" type="number" formControlName="customDistance" />
+      <input
+        matInput
+        min="0"
+        max="500"
+        type="number"
+        formControlName="customDistance"
+        (keydown)="distanceChange()"
+      />
     </mat-form-field>
     or
     <mat-form-field appearance="fill">
       <mat-label>Classic</mat-label>
-      <mat-select formControlName="classicDistance">
+      <mat-select
+        [(value)]="selectedDistance"
+        (selectionChange)="classicDistance($event)"
+      >
         <mat-option
           *ngFor="let distance of distances"
           [value]="distance.length"
@@ -209,8 +223,8 @@
   </h2>
 </div>
 
-<!-- <button [routerLink]="['../time']" mat-raised-button>time</button>
+<button [routerLink]="['../time']" mat-raised-button>time</button>
 
 <button [routerLink]="['../pace']" mat-raised-button>pace</button>
 
-<button [routerLink]="['../distance']" mat-raised-button>distance</button> -->
+<button [routerLink]="['../distance']" mat-raised-button>distance</button>

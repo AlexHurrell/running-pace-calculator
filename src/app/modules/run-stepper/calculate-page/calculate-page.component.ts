@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,10 +9,17 @@ import {
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Choices } from '../run-selection-page/run-selection-page.component';
 import { filter } from 'rxjs/operators';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatSelectChange } from '@angular/material/select';
 
-interface distance {
+interface DistanceLength {
+  km: number;
+  miles: number;
+}
+
+interface Distance {
   name: string;
-  length: number;
+  length: DistanceLength;
 }
 
 interface calculationForm {
@@ -47,28 +54,45 @@ type calculationFormGroup = FormGroup & {
 export class CalculatePageComponent implements OnInit {
   form: FormGroup;
 
-  distances: distance[] = [
+  distances: Distance[] = [
     {
       name: '5k',
-      length: 5,
+      length: {
+        km: 5,
+        miles: 3.10686,
+      },
     },
     {
       name: '10k',
-      length: 10,
+      length: {
+        km: 10,
+        miles: 6.21371,
+      },
     },
     {
       name: '10 miles',
-      length: 16.0934,
+      length: {
+        km: 16.0934,
+        miles: 10,
+      },
     },
     {
       name: 'Half Marathon',
-      length: 21.0775,
+      length: {
+        km: 21.0775,
+        miles: 13.1094,
+      },
     },
     {
       name: 'Marathon',
-      length: 42.195,
+      length: {
+        km: 42.195,
+        miles: 26.2188,
+      },
     },
   ];
+
+  distanceUnit: string = 'km';
 
   paceUnits = ['km', 'mile'];
 
@@ -77,6 +101,8 @@ export class CalculatePageComponent implements OnInit {
   choice: Choices | null | string;
 
   result: string;
+
+  selectedDistance: DistanceLength | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -122,12 +148,12 @@ export class CalculatePageComponent implements OnInit {
 
       this.form.controls.paceUnits.setValue('km');
       this.form.controls.units.setValue('km');
+      this.distanceUnit = 'km';
 
       this.result = '';
     });
 
     this.form.valueChanges.subscribe((formValue) => {
-      console.log(this.form.valid);
       if (this.form.valid) {
         if (this.choice === Choices.Pace) {
           this.result = this.paceResult(formValue);
@@ -145,6 +171,41 @@ export class CalculatePageComponent implements OnInit {
   isRequired(choice: Choices, choice2: Choices) {
     if (choice !== this.choice && choice2 !== this.choice) return null;
     return '';
+  }
+
+  classicDistance(event?: MatSelectChange) {
+    if (this.choice === Choices.Distance) return;
+    if (!event) {
+      if (this.selectedDistance) {
+        if (this.distanceUnit === 'km') {
+          this.form.patchValue({
+            customDistance: this.selectedDistance.km,
+            units: this.distanceUnit,
+          });
+        } else {
+          this.form.patchValue({
+            customDistance: this.selectedDistance.miles,
+            units: this.distanceUnit,
+          });
+        }
+      }
+    } else {
+      if (this.distanceUnit === 'km') {
+        this.form.patchValue({
+          customDistance: event.value.km,
+          units: this.distanceUnit,
+        });
+      } else {
+        this.form.patchValue({
+          customDistance: event.value.miles,
+          units: this.distanceUnit,
+        });
+      }
+    }
+  }
+
+  distanceChange() {
+    if (this.selectedDistance) this.selectedDistance = null;
   }
 
   oneRequired(choice: Choices, choice2?: Choices) {
