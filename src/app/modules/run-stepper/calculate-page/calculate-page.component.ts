@@ -4,6 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
@@ -110,28 +111,6 @@ export class CalculatePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      units: ['km', Validators.required],
-      customDistance: ['', this.isRequired(Choices.Distance, Choices.Pace)],
-      classicDistance: '',
-      time: this.formBuilder.group(
-        {
-          hours: '',
-          minutes: '',
-          seconds: '',
-        },
-        { validator: this.oneRequired(Choices.Pace, Choices.Time) }
-      ),
-      pace: this.formBuilder.group(
-        {
-          minutes: '',
-          seconds: '',
-        },
-        { validator: this.oneRequired(Choices.Pace) }
-      ),
-      paceUnits: 'km',
-    });
-
     this.route.params.subscribe((params) => {
       this.choice = params['id'];
       if (!this.choice) this.choice = Choices.Pace;
@@ -144,17 +123,44 @@ export class CalculatePageComponent implements OnInit {
         this.choice = Choices.Pace;
       }
 
-      this.form.reset();
+      if (this.form) {
+        this.form.reset();
 
-      this.form.controls.paceUnits.setValue('km');
-      this.form.controls.units.setValue('km');
-      this.distanceUnit = 'km';
+        this.form.controls.paceUnits.setValue('km');
+        this.form.controls.units.setValue('km');
+        this.distanceUnit = 'km';
+      }
 
       this.result = '';
     });
 
+    this.form = this.formBuilder.group({
+      units: ['km', Validators.required],
+      customDistance: ['', this.isRequired(Choices.Distance)],
+      time: this.formBuilder.group(
+        {
+          hours: '',
+          minutes: '',
+          seconds: '',
+        },
+        { validator: this.oneRequired(Choices.Time) }
+      ),
+      pace: this.formBuilder.group(
+        {
+          minutes: '',
+          seconds: '',
+        },
+        { validator: this.oneRequired(Choices.Pace) }
+      ),
+      paceUnits: 'km',
+    });
+
     this.form.valueChanges.subscribe((formValue) => {
+      console.log(this.form.valid);
+      console.log(formValue);
+
       if (this.form.valid) {
+        console.log(formValue);
         if (this.choice === Choices.Pace) {
           this.result = this.paceResult(formValue);
         } else if (this.choice === Choices.Distance) {
@@ -168,9 +174,13 @@ export class CalculatePageComponent implements OnInit {
     });
   }
 
-  isRequired(choice: Choices, choice2: Choices) {
-    if (choice !== this.choice && choice2 !== this.choice) return null;
-    return '';
+  isRequired(choice1: Choices): ValidatorFn {
+    console.log(choice1, this.choice);
+    return (formControl) => {
+      if (choice1 === this.choice) return null;
+      if (formControl.value) return null;
+      return { isRequired: '' };
+    };
   }
 
   classicDistance(event?: MatSelectChange) {
@@ -188,6 +198,10 @@ export class CalculatePageComponent implements OnInit {
             units: this.distanceUnit,
           });
         }
+      } else {
+        this.form.patchValue({
+          units: this.distanceUnit,
+        });
       }
     } else {
       if (this.distanceUnit === 'km') {
