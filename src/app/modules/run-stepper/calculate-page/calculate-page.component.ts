@@ -6,8 +6,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Choices } from '../run-selection-page/run-selection-page.component';
+import { filter } from 'rxjs/operators';
 
 interface distance {
   name: string;
@@ -83,17 +84,6 @@ export class CalculatePageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.choice = this.route.snapshot.paramMap.get('id');
-    if (!this.choice) this.choice = Choices.Pace;
-
-    if (
-      this.choice !== Choices.Pace &&
-      this.choice !== Choices.Time &&
-      this.choice !== Choices.Distance
-    ) {
-      this.choice = Choices.Pace;
-    }
-
     this.form = this.formBuilder.group({
       units: ['km', Validators.required],
       customDistance: ['', this.isRequired(Choices.Distance, Choices.Pace)],
@@ -116,6 +106,26 @@ export class CalculatePageComponent implements OnInit {
       paceUnits: 'km',
     });
 
+    this.route.params.subscribe((params) => {
+      this.choice = params['id'];
+      if (!this.choice) this.choice = Choices.Pace;
+
+      if (
+        this.choice !== Choices.Pace &&
+        this.choice !== Choices.Time &&
+        this.choice !== Choices.Distance
+      ) {
+        this.choice = Choices.Pace;
+      }
+
+      this.form.reset();
+
+      this.form.controls.paceUnits.setValue('km');
+      this.form.controls.units.setValue('km');
+
+      this.result = '';
+    });
+
     this.form.valueChanges.subscribe((formValue) => {
       console.log(this.form.valid);
       if (this.form.valid) {
@@ -124,6 +134,7 @@ export class CalculatePageComponent implements OnInit {
         } else if (this.choice === Choices.Distance) {
           this.result = this.distanceResult(formValue);
         } else {
+          this.result = this.timeResult(formValue);
         }
       } else {
         this.result = '';
@@ -183,7 +194,37 @@ export class CalculatePageComponent implements OnInit {
     return String(secondsTime / paceTime);
   }
 
+  private timeResult(formValue: calculationForm): string {
+    const paceFr =
+      Number(formValue.pace.minutes) + Number(formValue.pace.seconds) / 60;
+
+    const paceFrHour = 60 / paceFr;
+
+    let secondsTime =
+      (3600 *
+        Number(formValue.customDistance) *
+        (formValue.paceUnits === 'km'
+          ? formValue.units === 'km'
+            ? 1
+            : 1.60934
+          : formValue.units === 'mile'
+          ? 1
+          : 0.621371)) /
+      paceFrHour;
+
+    let timeHours = String(Math.floor(secondsTime / 3600)).padStart(2, '0');
+    secondsTime %= 3600;
+    let timeMinutes = String(Math.floor(secondsTime / 60)).padStart(2, '0');
+    let timeSeconds = String(Math.round(secondsTime % 60)).padStart(2, '0');
+
+    return (
+      (timeHours ? timeHours + ':' : '') +
+      (timeMinutes ? timeMinutes + ':' : '') +
+      (timeSeconds ? timeSeconds : '')
+    );
+  }
+
   templatePadStart(value: number) {
-    return String(value).padStart(2, '0');
+    return String(Math.floor(value)).padStart(2, '0');
   }
 }
