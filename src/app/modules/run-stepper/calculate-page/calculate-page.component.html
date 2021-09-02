@@ -1,230 +1,254 @@
-<div class="input-area" [formGroup]="form">
-  <section class="units mb-4">
-    <h4>Distance Units</h4>
-    <mat-radio-group
-      (change)="classicDistance()"
-      [(ngModel)]="distanceUnit"
-      [ngModelOptions]="{ standalone: true }"
+<div class="calculation-results">
+  <div class="input-area" [formGroup]="form">
+    <div>
+      <button [routerLink]="['../time']" mat-raised-button>time</button>
+
+      <button [routerLink]="['../pace']" mat-raised-button>pace</button>
+
+      <button [routerLink]="['../distance']" mat-raised-button>distance</button>
+    </div>
+    <section
+      class="distance"
+      *ngIf="choice === choices.Time || choice === choices.Pace"
     >
-      <mat-radio-button class="small-field" value="km">min/km</mat-radio-button>
-      <mat-radio-button class="small-field" value="mile"
-        >min/mile</mat-radio-button
-      >
-    </mat-radio-group>
-  </section>
-
-  <section
-    class="distance"
-    *ngIf="choice === choices.Time || choice === choices.Pace"
-  >
-    <h4>Distance</h4>
-    <mat-form-field class="small-field" appearance="fill">
-      <mat-label>Custom</mat-label>
-      <input
-        matInput
-        type="number"
-        min="0"
-        max="500"
-        formControlName="customDistance"
-        (keydown)="distanceChange()"
-      />
-    </mat-form-field>
-    or
-    <mat-form-field appearance="fill">
-      <mat-label>Classic</mat-label>
-      <mat-select
-        [(value)]="selectedDistance"
-        (selectionChange)="classicDistance($event)"
-      >
-        <mat-option
-          *ngFor="let distance of distances"
-          [value]="distance.length"
+      <h4>Distance</h4>
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Custom</mat-label>
+        <input
+          matInput
+          type="number"
+          min="0"
+          max="500"
+          formControlName="customDistance"
+          (keydown)="distanceChange()"
+        />
+      </mat-form-field>
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Units</mat-label>
+        <mat-select
+          (selectionChange)="classicDistance()"
+          [(ngModel)]="distanceUnit"
+          [ngModelOptions]="{ standalone: true }"
         >
-          {{ distance.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </section>
+          <mat-option value="km">km</mat-option>
+          <mat-option value="mile">mile</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="mr-2"> or </span>
+      <mat-form-field appearance="fill">
+        <mat-label>Classic</mat-label>
+        <mat-select
+          [(value)]="selectedDistance"
+          (selectionChange)="classicDistance($event)"
+        >
+          <mat-option
+            *ngFor="let distance of distances"
+            [value]="distance.length"
+          >
+            {{ distance.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
 
-  <section
-    class="time"
-    *ngIf="choice === choices.Distance || choice === choices.Pace"
-    formGroupName="time"
-  >
-    <h4>Time</h4>
-    <mat-form-field class="small-field" appearance="fill">
-      <mat-label>Hours</mat-label>
-      <input matInput min="0" type="number" formControlName="hours" />
-    </mat-form-field>
+    <section
+      class="time"
+      *ngIf="choice === choices.Distance || choice === choices.Pace"
+      formGroupName="time"
+    >
+      <h4>Time</h4>
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Hours</mat-label>
+        <input matInput min="0" type="number" formControlName="hours" />
+      </mat-form-field>
 
-    <mat-form-field class="small-field" appearance="fill">
-      <mat-label>Minutes</mat-label>
-      <input
-        matInput
-        min="0"
-        max="59"
-        type="number"
-        formControlName="minutes"
-      />
-    </mat-form-field>
-
-    <mat-form-field class="small-field" appearance="fill">
-      <mat-label>Seconds</mat-label>
-      <input
-        matInput
-        min="0"
-        max="59"
-        type="number"
-        formControlName="seconds"
-      />
-    </mat-form-field>
-  </section>
-
-  <section
-    class="pace"
-    *ngIf="choice === choices.Time || choice === choices.Distance"
-  >
-    <h4>Pace</h4>
-
-    <ng-container formGroupName="pace">
       <mat-form-field class="small-field" appearance="fill">
         <mat-label>Minutes</mat-label>
-        <input matInput max="59" type="number" formControlName="minutes" />
+        <input
+          matInput
+          min="0"
+          max="59"
+          type="number"
+          formControlName="minutes"
+        />
       </mat-form-field>
 
       <mat-form-field class="small-field" appearance="fill">
         <mat-label>Seconds</mat-label>
-        <input matInput max="59" type="number" formControlName="seconds" />
+        <input
+          matInput
+          min="0"
+          max="59"
+          type="number"
+          formControlName="seconds"
+        />
       </mat-form-field>
-    </ng-container>
+    </section>
 
-    per
+    <section
+      class="pace"
+      *ngIf="choice === choices.Time || choice === choices.Distance"
+    >
+      <h4>Pace</h4>
 
-    <mat-form-field class="small-field" appearance="fill">
-      <mat-label>Units</mat-label>
-      <mat-select formControlName="paceUnits">
-        <mat-option *ngFor="let unit of paceUnits" [value]="unit">
-          {{ unit }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <ng-container formGroupName="pace">
+        <mat-form-field class="small-field" appearance="fill">
+          <mat-label>Minutes</mat-label>
+          <input matInput max="59" type="number" formControlName="minutes" />
+        </mat-form-field>
 
-    <!-- <ng-container *ngIf="this.form.value.units === 'km'; else miles">
-      per km
-    </ng-container>
-    <ng-template #miles> per mile</ng-template> -->
-  </section>
+        <mat-form-field class="small-field" appearance="fill">
+          <mat-label>Seconds</mat-label>
+          <input matInput max="59" type="number" formControlName="seconds" />
+        </mat-form-field>
+      </ng-container>
+
+      per
+
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Units</mat-label>
+        <mat-select formControlName="paceUnits">
+          <mat-option *ngFor="let unit of paceUnits" [value]="unit">
+            {{ unit }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <section *ngIf="choice === choices.Pace">
+      <h4>Pace (output)</h4>
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Units</mat-label>
+        <mat-select formControlName="paceUnits">
+          <mat-option *ngFor="let unit of paceUnits" [value]="unit">
+            {{ unit }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+
+    <section class="units mb-4" *ngIf="choice === choices.Distance">
+      <h4>Distance (output)</h4>
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Units</mat-label>
+        <mat-select
+          (selectionChange)="classicDistance()"
+          [(ngModel)]="distanceUnit"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-option value="km">km</mat-option>
+          <mat-option value="mile">mile</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+  </div>
+
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <div class="results-area">
+    <h2 *ngIf="choice === choices.Distance && result">
+      At a pace of
+      <h1>
+        {{ templatePadStart(this.form.value.pace.minutes) }}:{{
+          templatePadStart(this.form.value.pace.seconds)
+        }}
+        per {{ this.form.value.paceUnits }}
+      </h1>
+      over
+      <h1>
+        <span *ngIf="this.form.value.time.hours"
+          >{{ this.form.value.time.hours }} hours</span
+        >
+        <span *ngIf="this.form.value.time.hours && this.form.value.time.minutes"
+          >,
+        </span>
+        <span *ngIf="this.form.value.time.minutes"
+          >{{ this.form.value.time.minutes }} minutes</span
+        >
+        <span
+          *ngIf="this.form.value.time.minutes && this.form.value.time.seconds"
+        >
+          and
+        </span>
+        <span *ngIf="this.form.value.time.seconds"
+          >{{ this.form.value.time.seconds }} seconds</span
+        >
+      </h1>
+      you would travel
+      <h1>
+        {{ this.result | number: "1.2-2" }}
+        {{ this.form.value.units
+        }}<span *ngIf="this.form.value.units === 'km'">'s</span>
+        <span *ngIf="this.form.value.units === 'mile'">s</span>
+      </h1>
+    </h2>
+    <h2 *ngIf="choice === choices.Time && result">
+      At a pace of
+      <h1>
+        {{ templatePadStart(this.form.value.pace.minutes) }}:{{
+          templatePadStart(this.form.value.pace.seconds)
+        }}
+        per {{ this.form.value.paceUnits }}
+      </h1>
+      over
+      <h1>
+        {{ this.form.value.customDistance }} {{ this.form.value.units
+        }}<span
+          *ngIf="
+            this.form.value.customDistance > 1 && this.form.value.units === 'km'
+          "
+          >'s</span
+        >
+        <span
+          *ngIf="
+            this.form.value.customDistance > 1 &&
+            this.form.value.units === 'mile'
+          "
+          >s</span
+        >
+      </h1>
+      it would take you
+      <h1>{{ this.result }}</h1>
+    </h2>
+    <h2 *ngIf="choice === choices.Pace && result">
+      <h1>
+        {{ this.form.value.customDistance }} {{ this.form.value.units
+        }}<span
+          *ngIf="
+            this.form.value.customDistance > 1 && this.form.value.units === 'km'
+          "
+          >'s</span
+        >
+        <span
+          *ngIf="
+            this.form.value.customDistance > 1 &&
+            this.form.value.units === 'mile'
+          "
+          >s</span
+        >
+      </h1>
+      in
+      <h1>
+        <span *ngIf="this.form.value.time.hours"
+          >{{ this.form.value.time.hours }} hours</span
+        >
+        <span *ngIf="this.form.value.time.hours && this.form.value.time.minutes"
+          >,
+        </span>
+        <span *ngIf="this.form.value.time.minutes"
+          >{{ this.form.value.time.minutes }} minutes</span
+        >
+        <span
+          *ngIf="this.form.value.time.minutes && this.form.value.time.seconds"
+        >
+          and
+        </span>
+        <span *ngIf="this.form.value.time.seconds"
+          >{{ this.form.value.time.seconds }} seconds</span
+        >
+      </h1>
+      your pace would need to be
+      <h1>{{ this.result }} per {{ this.form.value.paceUnits }}.</h1>
+    </h2>
+  </div>
 </div>
-
-<mat-divider [vertical]="true"></mat-divider>
-
-<div class="results-area">
-  <h2 *ngIf="choice === choices.Distance && result">
-    At a pace of
-    <h1>
-      {{ templatePadStart(this.form.value.pace.minutes) }}:{{
-        templatePadStart(this.form.value.pace.seconds)
-      }}
-      per {{ this.form.value.paceUnits }}
-    </h1>
-    over
-    <h1>
-      <span *ngIf="this.form.value.time.hours"
-        >{{ this.form.value.time.hours }} hours</span
-      >
-      <span *ngIf="this.form.value.time.hours && this.form.value.time.minutes"
-        >,
-      </span>
-      <span *ngIf="this.form.value.time.minutes"
-        >{{ this.form.value.time.minutes }} minutes</span
-      >
-      <span
-        *ngIf="this.form.value.time.minutes && this.form.value.time.seconds"
-      >
-        and
-      </span>
-      <span *ngIf="this.form.value.time.seconds"
-        >{{ this.form.value.time.seconds }} seconds</span
-      >
-    </h1>
-    you would travel
-    <h1>
-      {{ this.result | number: "1.2-2" }}
-      {{ this.form.value.units
-      }}<span *ngIf="this.form.value.units === 'km'">'s</span>
-      <span *ngIf="this.form.value.units === 'mile'">s</span>
-    </h1>
-  </h2>
-  <h2 *ngIf="choice === choices.Time && result">
-    At a pace of
-    <h1>
-      {{ templatePadStart(this.form.value.pace.minutes) }}:{{
-        templatePadStart(this.form.value.pace.seconds)
-      }}
-      per {{ this.form.value.paceUnits }}
-    </h1>
-    over
-    <h1>
-      {{ this.form.value.customDistance }} {{ this.form.value.units
-      }}<span
-        *ngIf="
-          this.form.value.customDistance > 1 && this.form.value.units === 'km'
-        "
-        >'s</span
-      >
-      <span
-        *ngIf="
-          this.form.value.customDistance > 1 && this.form.value.units === 'mile'
-        "
-        >s</span
-      >
-    </h1>
-    it would take you
-    <h1>{{ this.result }}</h1>
-  </h2>
-  <h2 *ngIf="choice === choices.Pace && result">
-    <h1>
-      {{ this.form.value.customDistance }} {{ this.form.value.units
-      }}<span
-        *ngIf="
-          this.form.value.customDistance > 1 && this.form.value.units === 'km'
-        "
-        >'s</span
-      >
-      <span
-        *ngIf="
-          this.form.value.customDistance > 1 && this.form.value.units === 'mile'
-        "
-        >s</span
-      >
-    </h1>
-    in
-    <h1>
-      <span *ngIf="this.form.value.time.hours"
-        >{{ this.form.value.time.hours }} hours</span
-      >
-      <span *ngIf="this.form.value.time.hours && this.form.value.time.minutes"
-        >,
-      </span>
-      <span *ngIf="this.form.value.time.minutes"
-        >{{ this.form.value.time.minutes }} minutes</span
-      >
-      <span
-        *ngIf="this.form.value.time.minutes && this.form.value.time.seconds"
-      >
-        and
-      </span>
-      <span *ngIf="this.form.value.time.seconds"
-        >{{ this.form.value.time.seconds }} seconds</span
-      >
-    </h1>
-    your pace would need to be
-    <h1>{{ this.result }} per {{ this.form.value.units }}.</h1>
-  </h2>
-</div>
-
-<button [routerLink]="['../time']" mat-raised-button>time</button>
-
-<button [routerLink]="['../pace']" mat-raised-button>pace</button>
-
-<button [routerLink]="['../distance']" mat-raised-button>distance</button>

@@ -156,11 +156,7 @@ export class CalculatePageComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe((formValue) => {
-      console.log(this.form.valid);
-      console.log(formValue);
-
       if (this.form.valid) {
-        console.log(formValue);
         if (this.choice === Choices.Pace) {
           this.result = this.paceResult(formValue);
         } else if (this.choice === Choices.Distance) {
@@ -175,7 +171,6 @@ export class CalculatePageComponent implements OnInit {
   }
 
   isRequired(choice1: Choices): ValidatorFn {
-    console.log(choice1, this.choice);
     return (formControl) => {
       if (choice1 === this.choice) return null;
       if (formControl.value) return null;
@@ -184,7 +179,7 @@ export class CalculatePageComponent implements OnInit {
   }
 
   classicDistance(event?: MatSelectChange) {
-    if (this.choice === Choices.Distance) return;
+    console.log('hi');
     if (!event) {
       if (this.selectedDistance) {
         if (this.distanceUnit === 'km') {
@@ -210,6 +205,7 @@ export class CalculatePageComponent implements OnInit {
           units: this.distanceUnit,
         });
       } else {
+        console.log(this.distanceUnit);
         this.form.patchValue({
           customDistance: event.value.miles,
           units: this.distanceUnit,
@@ -236,7 +232,10 @@ export class CalculatePageComponent implements OnInit {
       Number(formValue.time.hours) * 3600 +
       Number(formValue.time.minutes) * 60 +
       Number(formValue.time.seconds);
-    let pace = seconds / Number(formValue.customDistance);
+    let pace =
+      (seconds * (formValue.paceUnits === 'km' ? 1 : 1.60934)) /
+      (Number(formValue.customDistance) *
+        (formValue.units === 'km' ? 1 : 1.60934));
 
     let paceHours = String(Math.floor(pace / 3600)).padStart(2, '0');
     pace %= 3600;
