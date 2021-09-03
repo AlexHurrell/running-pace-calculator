@@ -1,11 +1,32 @@
 <div class="calculation-results">
   <div class="input-area" [formGroup]="form">
-    <div>
-      <button [routerLink]="['../time']" mat-raised-button>time</button>
+    <div class="mb-3">
+      <button
+        class="mr-3"
+        [color]="choice === choices.Time ? 'accent' : ''"
+        [routerLink]="['../time']"
+        mat-raised-button
+      >
+        Time
+      </button>
 
-      <button [routerLink]="['../pace']" mat-raised-button>pace</button>
+      <button
+        class="mr-3"
+        [color]="choice === choices.Pace ? 'accent' : ''"
+        [routerLink]="['../pace']"
+        mat-raised-button
+      >
+        Pace
+      </button>
 
-      <button [routerLink]="['../distance']" mat-raised-button>distance</button>
+      <button
+        class="mr-3"
+        [color]="choice === choices.Distance ? 'accent' : ''"
+        [routerLink]="['../distance']"
+        mat-raised-button
+      >
+        Distance
+      </button>
     </div>
     <section
       class="distance"
@@ -34,7 +55,7 @@
           <mat-option value="mile">mile</mat-option>
         </mat-select>
       </mat-form-field>
-      <span class="mr-2"> or </span>
+      <span class="mr-2 pr-2"> or </span>
       <mat-form-field appearance="fill">
         <mat-label>Classic</mat-label>
         <mat-select
@@ -94,12 +115,24 @@
       <ng-container formGroupName="pace">
         <mat-form-field class="small-field" appearance="fill">
           <mat-label>Minutes</mat-label>
-          <input matInput max="59" type="number" formControlName="minutes" />
+          <input
+            matInput
+            max="59"
+            min="0"
+            type="number"
+            formControlName="minutes"
+          />
         </mat-form-field>
 
         <mat-form-field class="small-field" appearance="fill">
           <mat-label>Seconds</mat-label>
-          <input matInput max="59" type="number" formControlName="seconds" />
+          <input
+            matInput
+            max="59"
+            min="0"
+            type="number"
+            formControlName="seconds"
+          />
         </mat-form-field>
       </ng-container>
 
@@ -166,7 +199,10 @@
           >{{ this.form.value.time.minutes }} minutes</span
         >
         <span
-          *ngIf="this.form.value.time.minutes && this.form.value.time.seconds"
+          *ngIf="
+            (this.form.value.time.minutes && this.form.value.time.seconds) ||
+            (this.form.value.time.hours && this.form.value.time.seconds)
+          "
         >
           and
         </span>
@@ -239,7 +275,10 @@
           >{{ this.form.value.time.minutes }} minutes</span
         >
         <span
-          *ngIf="this.form.value.time.minutes && this.form.value.time.seconds"
+          *ngIf="
+            (this.form.value.time.minutes && this.form.value.time.seconds) ||
+            (this.form.value.time.hours && this.form.value.time.seconds)
+          "
         >
           and
         </span>

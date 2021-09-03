@@ -1,16 +1,13 @@
-import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Choices } from '../run-selection-page/run-selection-page.component';
-import { filter } from 'rxjs/operators';
-import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
 
 interface DistanceLength {
@@ -179,7 +176,6 @@ export class CalculatePageComponent implements OnInit {
   }
 
   classicDistance(event?: MatSelectChange) {
-    console.log('hi');
     if (!event) {
       if (this.selectedDistance) {
         if (this.distanceUnit === 'km') {
@@ -205,7 +201,6 @@ export class CalculatePageComponent implements OnInit {
           units: this.distanceUnit,
         });
       } else {
-        console.log(this.distanceUnit);
         this.form.patchValue({
           customDistance: event.value.miles,
           units: this.distanceUnit,

@@ -1,12 +1,5 @@
 <h3>What do you want to calculate? Pace, distance or time?</h3>
 <p></p>
-<!-- <mat-form-field appearance="fill">
-  <mat-select>
-    <mat-option *ngFor="let choice of choices" [value]="choice">
-      {{ choice }}
-    </mat-option>
-  </mat-select>
-</mat-form-field> -->
 
 <div>
   <mat-radio-group
@@ -51,31 +44,3 @@
     </button>
   </div>
 </div>
-
-<!-- <p>Enter two out of three variables to calculate</p>
-
-<mat-stepper linear #stepper orientation="vertical">
-  <mat-step [stepControl]="firstFormGroup">
-    <ng-template matStepLabel>Distance</ng-template>
-
-    <div>
-      <button color="primary" mat-button matStepperNext>Next</button>
-    </div>
-  </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <ng-template matStepLabel>Time</ng-template>
-
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
-  </mat-step>
-  <mat-step [stepControl]="thirdFormGroup">
-    <ng-template matStepLabel>Pace</ng-template>
-
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
-    </div>
-  </mat-step>
-</mat-stepper> -->
