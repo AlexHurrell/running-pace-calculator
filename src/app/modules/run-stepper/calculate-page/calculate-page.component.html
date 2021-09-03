@@ -33,7 +33,7 @@
       *ngIf="choice === choices.Time || choice === choices.Pace"
     >
       <h4>Distance</h4>
-      <mat-form-field class="small-field" appearance="fill">
+      <mat-form-field class="small-field mr-3" appearance="fill">
         <mat-label>Custom</mat-label>
         <input
           matInput
@@ -55,8 +55,8 @@
           <mat-option value="mile">mile</mat-option>
         </mat-select>
       </mat-form-field>
-      <span class="mr-2 pr-2"> or </span>
-      <mat-form-field appearance="fill">
+      <span class="mx-3"> or </span>
+      <mat-form-field class="medium-field" appearance="fill">
         <mat-label>Classic</mat-label>
         <mat-select
           [(value)]="selectedDistance"
@@ -83,6 +83,8 @@
         <input matInput min="0" type="number" formControlName="hours" />
       </mat-form-field>
 
+      <span class="mx-3">:</span>
+
       <mat-form-field class="small-field" appearance="fill">
         <mat-label>Minutes</mat-label>
         <input
@@ -93,6 +95,8 @@
           formControlName="minutes"
         />
       </mat-form-field>
+
+      <span class="mx-3">:</span>
 
       <mat-form-field class="small-field" appearance="fill">
         <mat-label>Seconds</mat-label>
@@ -124,6 +128,8 @@
           />
         </mat-form-field>
 
+        <span class="mx-3">:</span>
+
         <mat-form-field class="small-field" appearance="fill">
           <mat-label>Seconds</mat-label>
           <input
@@ -136,7 +142,7 @@
         </mat-form-field>
       </ng-container>
 
-      per
+      <span class="mx-3">per</span>
 
       <mat-form-field class="small-field" appearance="fill">
         <mat-label>Units</mat-label>
@@ -178,116 +184,9 @@
 
   <mat-divider [vertical]="true"></mat-divider>
 
-  <div class="results-area">
-    <h2 *ngIf="choice === choices.Distance && result">
-      At a pace of
-      <h1>
-        {{ templatePadStart(this.form.value.pace.minutes) }}:{{
-          templatePadStart(this.form.value.pace.seconds)
-        }}
-        per {{ this.form.value.paceUnits }}
-      </h1>
-      over
-      <h1>
-        <span *ngIf="this.form.value.time.hours"
-          >{{ this.form.value.time.hours }} hours</span
-        >
-        <span *ngIf="this.form.value.time.hours && this.form.value.time.minutes"
-          >,
-        </span>
-        <span *ngIf="this.form.value.time.minutes"
-          >{{ this.form.value.time.minutes }} minutes</span
-        >
-        <span
-          *ngIf="
-            (this.form.value.time.minutes && this.form.value.time.seconds) ||
-            (this.form.value.time.hours && this.form.value.time.seconds)
-          "
-        >
-          and
-        </span>
-        <span *ngIf="this.form.value.time.seconds"
-          >{{ this.form.value.time.seconds }} seconds</span
-        >
-      </h1>
-      you would travel
-      <h1>
-        {{ this.result | number: "1.2-2" }}
-        {{ this.form.value.units
-        }}<span *ngIf="this.form.value.units === 'km'">'s</span>
-        <span *ngIf="this.form.value.units === 'mile'">s</span>
-      </h1>
-    </h2>
-    <h2 *ngIf="choice === choices.Time && result">
-      At a pace of
-      <h1>
-        {{ templatePadStart(this.form.value.pace.minutes) }}:{{
-          templatePadStart(this.form.value.pace.seconds)
-        }}
-        per {{ this.form.value.paceUnits }}
-      </h1>
-      over
-      <h1>
-        {{ this.form.value.customDistance }} {{ this.form.value.units
-        }}<span
-          *ngIf="
-            this.form.value.customDistance > 1 && this.form.value.units === 'km'
-          "
-          >'s</span
-        >
-        <span
-          *ngIf="
-            this.form.value.customDistance > 1 &&
-            this.form.value.units === 'mile'
-          "
-          >s</span
-        >
-      </h1>
-      it would take you
-      <h1>{{ this.result }}</h1>
-    </h2>
-    <h2 *ngIf="choice === choices.Pace && result">
-      <h1>
-        {{ this.form.value.customDistance }} {{ this.form.value.units
-        }}<span
-          *ngIf="
-            this.form.value.customDistance > 1 && this.form.value.units === 'km'
-          "
-          >'s</span
-        >
-        <span
-          *ngIf="
-            this.form.value.customDistance > 1 &&
-            this.form.value.units === 'mile'
-          "
-          >s</span
-        >
-      </h1>
-      in
-      <h1>
-        <span *ngIf="this.form.value.time.hours"
-          >{{ this.form.value.time.hours }} hours</span
-        >
-        <span *ngIf="this.form.value.time.hours && this.form.value.time.minutes"
-          >,
-        </span>
-        <span *ngIf="this.form.value.time.minutes"
-          >{{ this.form.value.time.minutes }} minutes</span
-        >
-        <span
-          *ngIf="
-            (this.form.value.time.minutes && this.form.value.time.seconds) ||
-            (this.form.value.time.hours && this.form.value.time.seconds)
-          "
-        >
-          and
-        </span>
-        <span *ngIf="this.form.value.time.seconds"
-          >{{ this.form.value.time.seconds }} seconds</span
-        >
-      </h1>
-      your pace would need to be
-      <h1>{{ this.result }} per {{ this.form.value.paceUnits }}.</h1>
-    </h2>
-  </div>
+  <app-results
+    [choice]="choice"
+    [result]="result"
+    [formValue]="form.value"
+  ></app-results>
 </div>

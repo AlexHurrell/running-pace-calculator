@@ -9,23 +9,14 @@
 }
 
 .small-field {
-  max-width: 100px;
+  max-width: 85px;
 }
 
-.time mat-form-field {
-  margin-right: 2em;
-}
-
-.small-field {
-  margin-right: 2em;
+.medium-field {
+  max-width: 150px;
 }
 
 .input-area {
-  padding: 1em;
-  flex: 1 1;
-}
-
-.results-area {
   padding: 1em;
   flex: 1 1;
 }

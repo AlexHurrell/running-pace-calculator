@@ -20,8 +20,13 @@ interface Distance {
   length: DistanceLength;
 }
 
-interface calculationForm {
-  units: string;
+export enum DistanceUnits {
+  Km = 'km',
+  Mile = 'mile',
+}
+
+export interface calculationForm {
+  units: DistanceUnits;
   time: {
     hours: string;
     minutes: string;
@@ -33,7 +38,7 @@ interface calculationForm {
   };
   customDistance: string;
   classicDistance: string;
-  paceUnits: string;
+  paceUnits: DistanceUnits;
 }
 
 type calculationFormControls = {
@@ -90,9 +95,9 @@ export class CalculatePageComponent implements OnInit {
     },
   ];
 
-  distanceUnit: string = 'km';
+  distanceUnit: DistanceUnits = DistanceUnits.Km;
 
-  paceUnits = ['km', 'mile'];
+  paceUnits = [DistanceUnits.Km, DistanceUnits.Mile];
 
   choices = Choices;
 
@@ -123,16 +128,16 @@ export class CalculatePageComponent implements OnInit {
       if (this.form) {
         this.form.reset();
 
-        this.form.controls.paceUnits.setValue('km');
-        this.form.controls.units.setValue('km');
-        this.distanceUnit = 'km';
+        this.form.controls.paceUnits.setValue(DistanceUnits.Km);
+        this.form.controls.units.setValue(DistanceUnits.Km);
+        this.distanceUnit = DistanceUnits.Km;
       }
 
       this.result = '';
     });
 
     this.form = this.formBuilder.group({
-      units: ['km', Validators.required],
+      units: [DistanceUnits.Km, Validators.required],
       customDistance: ['', this.isRequired(Choices.Distance)],
       time: this.formBuilder.group(
         {
@@ -149,7 +154,7 @@ export class CalculatePageComponent implements OnInit {
         },
         { validator: this.oneRequired(Choices.Pace) }
       ),
-      paceUnits: 'km',
+      paceUnits: DistanceUnits.Km,
     });
 
     this.form.valueChanges.subscribe((formValue) => {
@@ -178,7 +183,7 @@ export class CalculatePageComponent implements OnInit {
   classicDistance(event?: MatSelectChange) {
     if (!event) {
       if (this.selectedDistance) {
-        if (this.distanceUnit === 'km') {
+        if (this.distanceUnit === DistanceUnits.Km) {
           this.form.patchValue({
             customDistance: this.selectedDistance.km,
             units: this.distanceUnit,
@@ -195,7 +200,7 @@ export class CalculatePageComponent implements OnInit {
         });
       }
     } else {
-      if (this.distanceUnit === 'km') {
+      if (this.distanceUnit === DistanceUnits.Km) {
         this.form.patchValue({
           customDistance: event.value.km,
           units: this.distanceUnit,
@@ -228,9 +233,9 @@ export class CalculatePageComponent implements OnInit {
       Number(formValue.time.minutes) * 60 +
       Number(formValue.time.seconds);
     let pace =
-      (seconds * (formValue.paceUnits === 'km' ? 1 : 1.60934)) /
+      (seconds * (formValue.paceUnits === DistanceUnits.Km ? 1 : 1.60934)) /
       (Number(formValue.customDistance) *
-        (formValue.units === 'km' ? 1 : 1.60934));
+        (formValue.units === DistanceUnits.Km ? 1 : 1.60934));
 
     let paceHours = String(Math.floor(pace / 3600)).padStart(2, '0');
     pace %= 3600;
@@ -252,11 +257,11 @@ export class CalculatePageComponent implements OnInit {
 
     const paceTime =
       (Number(formValue.pace.minutes) * 60 + Number(formValue.pace.seconds)) /
-      (formValue.paceUnits === 'km'
-        ? formValue.units === 'km'
+      (formValue.paceUnits === DistanceUnits.Km
+        ? formValue.units === DistanceUnits.Km
           ? 1
           : 0.621371
-        : formValue.units === 'mile'
+        : formValue.units === DistanceUnits.Mile
         ? 1
         : 1.60934);
 
@@ -272,11 +277,11 @@ export class CalculatePageComponent implements OnInit {
     let secondsTime =
       (3600 *
         Number(formValue.customDistance) *
-        (formValue.paceUnits === 'km'
-          ? formValue.units === 'km'
+        (formValue.paceUnits === DistanceUnits.Km
+          ? formValue.units === DistanceUnits.Km
             ? 1
             : 1.60934
-          : formValue.units === 'mile'
+          : formValue.units === DistanceUnits.Mile
           ? 1
           : 0.621371)) /
       paceFrHour;
@@ -291,9 +296,5 @@ export class CalculatePageComponent implements OnInit {
       (timeMinutes ? timeMinutes + ':' : '') +
       (timeSeconds ? timeSeconds : '')
     );
-  }
-
-  templatePadStart(value: number) {
-    return String(Math.floor(value)).padStart(2, '0');
   }
 }

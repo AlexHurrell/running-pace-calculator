@@ -1,0 +1,89 @@
+<div class="results-area">
+  <h2 *ngIf="choice === choices.Distance && result">
+    At a pace of
+    <h1>
+      {{ templatePadStart(formValue.pace.minutes) }}:{{
+        templatePadStart(formValue.pace.seconds)
+      }}
+      per {{ formValue.paceUnits }}
+    </h1>
+    over
+    <h1>
+      <span *ngIf="formValue.time.hours">{{ formValue.time.hours }} hours</span>
+      <span *ngIf="formValue.time.hours && formValue.time.minutes">, </span>
+      <span *ngIf="formValue.time.minutes"
+        >{{ formValue.time.minutes }} minutes</span
+      >
+      <span
+        *ngIf="
+          (formValue.time.minutes && formValue.time.seconds) ||
+          (formValue.time.hours && formValue.time.seconds)
+        "
+      >
+        and
+      </span>
+      <span *ngIf="formValue.time.seconds"
+        >{{ formValue.time.seconds }} seconds</span
+      >
+    </h1>
+    you would travel
+    <h1>
+      {{ this.result | number: "1.2-2" }}
+      {{ formValue.units }}<span *ngIf="formValue.units === 'km'">'s</span>
+      <span *ngIf="formValue.units === 'mile'">s</span>
+    </h1>
+  </h2>
+  <h2 *ngIf="choice === choices.Time && result">
+    At a pace of
+    <h1>
+      {{ templatePadStart(formValue.pace.minutes) }}:{{
+        templatePadStart(formValue.pace.seconds)
+      }}
+      per {{ formValue.paceUnits }}
+    </h1>
+    over
+    <h1>
+      {{ formValue.customDistance }} {{ formValue.units
+      }}<span *ngIf="formValue.customDistance > '1' && formValue.units === 'km'"
+        >'s</span
+      >
+      <span *ngIf="formValue.customDistance > '1' && formValue.units === 'mile'"
+        >s</span
+      >
+    </h1>
+    it would take you
+    <h1>{{ this.result }}</h1>
+  </h2>
+  <h2 *ngIf="choice === choices.Pace && result">
+    <h1>
+      {{ formValue.customDistance }} {{ formValue.units
+      }}<span *ngIf="formValue.customDistance > '1' && formValue.units === 'km'"
+        >'s</span
+      >
+      <span *ngIf="formValue.customDistance > '1' && formValue.units === 'mile'"
+        >s</span
+      >
+    </h1>
+    in
+    <h1>
+      <span *ngIf="formValue.time.hours">{{ formValue.time.hours }} hours</span>
+      <span *ngIf="formValue.time.hours && formValue.time.minutes">, </span>
+      <span *ngIf="formValue.time.minutes"
+        >{{ formValue.time.minutes }} minutes</span
+      >
+      <span
+        *ngIf="
+          (formValue.time.minutes && formValue.time.seconds) ||
+          (formValue.time.hours && formValue.time.seconds)
+        "
+      >
+        and
+      </span>
+      <span *ngIf="formValue.time.seconds"
+        >{{ formValue.time.seconds }} seconds</span
+      >
+    </h1>
+    your pace would need to be
+    <h1>{{ this.result }} per {{ formValue.paceUnits }}.</h1>
+  </h2>
+</div>

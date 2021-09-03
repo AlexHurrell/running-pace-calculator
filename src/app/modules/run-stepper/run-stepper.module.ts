@@ -16,9 +16,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CalculatePageComponent } from './calculate-page/calculate-page.component';
 import { RouterModule } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
-  declarations: [RunSelectionPageComponent, CalculatePageComponent],
+  declarations: [RunSelectionPageComponent, CalculatePageComponent, ResultsComponent],
   imports: [
     CommonModule,
     MatStepperModule,
