@@ -9,45 +9,12 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Choices } from '../run-selection-page/run-selection-page.component';
 import { MatSelectChange } from '@angular/material/select';
-
-interface DistanceLength {
-  km: number;
-  miles: number;
-}
-
-interface Distance {
-  name: string;
-  length: DistanceLength;
-}
-
-export enum DistanceUnits {
-  Km = 'km',
-  Mile = 'mile',
-}
-
-export interface calculationForm {
-  units: DistanceUnits;
-  time: {
-    hours: string;
-    minutes: string;
-    seconds: string;
-  };
-  pace: {
-    minutes: string;
-    seconds: string;
-  };
-  customDistance: string;
-  classicDistance: string;
-  paceUnits: DistanceUnits;
-}
-
-type calculationFormControls = {
-  [key in keyof calculationForm]: AbstractControl;
-};
-type calculationFormGroup = FormGroup & {
-  value: calculationForm;
-  controls: calculationFormControls;
-};
+import {
+  calculationForm,
+  Distance,
+  DistanceLength,
+  DistanceUnits,
+} from '../../models/models';
 
 @Component({
   selector: 'app-calculate-page',

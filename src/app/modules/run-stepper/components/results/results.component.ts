@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { calculationForm } from '../calculate-page/calculate-page.component';
-import { Choices } from '../run-selection-page/run-selection-page.component';
+import { calculationForm } from '../../models/models';
+import { Choices } from '../../pages/run-selection-page/run-selection-page.component';
 
 @Component({
   selector: 'app-results',
