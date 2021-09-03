@@ -6,6 +6,7 @@
         [color]="choice === choices.Time ? 'accent' : ''"
         [routerLink]="['../time']"
         mat-raised-button
+        [disableRipple]="true"
       >
         Time
       </button>
@@ -15,6 +16,7 @@
         [color]="choice === choices.Pace ? 'accent' : ''"
         [routerLink]="['../pace']"
         mat-raised-button
+        [disableRipple]="true"
       >
         Pace
       </button>
@@ -24,6 +26,7 @@
         [color]="choice === choices.Distance ? 'accent' : ''"
         [routerLink]="['../distance']"
         mat-raised-button
+        [disableRipple]="true"
       >
         Distance
       </button>
