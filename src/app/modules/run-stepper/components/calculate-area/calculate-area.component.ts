@@ -74,7 +74,7 @@ export class CalculateAreaComponent implements OnInit {
     this.classicDistance.emit({ event, selectedDistance, distanceUnit });
   }
 
-  distanceChangeEmitter() {
+  distanceChange() {
     this.selectedDistance = null;
   }
 }

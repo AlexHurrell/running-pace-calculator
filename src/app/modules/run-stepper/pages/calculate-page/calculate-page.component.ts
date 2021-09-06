@@ -60,8 +60,6 @@ export class CalculatePageComponent implements OnInit {
     },
   ];
 
-  // distanceUnit: DistanceUnits = DistanceUnits.Km;
-
   paceUnits = [DistanceUnits.Km, DistanceUnits.Mile];
 
   choices = Choices;
@@ -93,7 +91,6 @@ export class CalculatePageComponent implements OnInit {
 
         this.form.controls.paceUnits.setValue(DistanceUnits.Km);
         this.form.controls.distanceUnit.setValue(DistanceUnits.Km);
-        // this.distanceUnit = DistanceUnits.Km;
       }
 
       this.result = '';
