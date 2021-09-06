@@ -29,8 +29,9 @@
     you would travel
     <h1>
       {{ this.result | number: "1.2-2" }}
-      {{ formValue.units }}<span *ngIf="formValue.units === 'km'">'s</span>
-      <span *ngIf="formValue.units === 'mile'">s</span>
+      {{ formValue.distanceUnit
+      }}<span *ngIf="formValue.distanceUnit === 'km'">'s</span>
+      <span *ngIf="formValue.distanceUnit === 'mile'">s</span>
     </h1>
   </h2>
   <h2 *ngIf="choice === choices.Time && result">
@@ -43,11 +44,17 @@
     </h1>
     over
     <h1>
-      {{ formValue.customDistance }} {{ formValue.units
-      }}<span *ngIf="formValue.customDistance > '1' && formValue.units === 'km'"
+      {{ formValue.customDistance }} {{ formValue.distanceUnit
+      }}<span
+        *ngIf="
+          formValue.customDistance > '1' && formValue.distanceUnit === 'km'
+        "
         >'s</span
       >
-      <span *ngIf="formValue.customDistance > '1' && formValue.units === 'mile'"
+      <span
+        *ngIf="
+          formValue.customDistance > '1' && formValue.distanceUnit === 'mile'
+        "
         >s</span
       >
     </h1>
@@ -56,11 +63,17 @@
   </h2>
   <h2 *ngIf="choice === choices.Pace && result">
     <h1>
-      {{ formValue.customDistance }} {{ formValue.units
-      }}<span *ngIf="formValue.customDistance > '1' && formValue.units === 'km'"
+      {{ formValue.customDistance }} {{ formValue.distanceUnit
+      }}<span
+        *ngIf="
+          formValue.customDistance > '1' && formValue.distanceUnit === 'km'
+        "
         >'s</span
       >
-      <span *ngIf="formValue.customDistance > '1' && formValue.units === 'mile'"
+      <span
+        *ngIf="
+          formValue.customDistance > '1' && formValue.distanceUnit === 'mile'
+        "
         >s</span
       >
     </h1>

@@ -8,7 +8,7 @@ export function paceResult(formValue: calculationForm): string {
   let pace =
     (seconds * (formValue.paceUnits === DistanceUnits.Km ? 1 : 1.60934)) /
     (Number(formValue.customDistance) *
-      (formValue.units === DistanceUnits.Km ? 1 : 1.60934));
+      (formValue.distanceUnit === DistanceUnits.Km ? 1 : 1.60934));
 
   let paceHours = String(Math.floor(pace / 3600)).padStart(2, '0');
   pace %= 3600;
@@ -31,10 +31,10 @@ export function distanceResult(formValue: calculationForm): string {
   const paceTime =
     (Number(formValue.pace.minutes) * 60 + Number(formValue.pace.seconds)) /
     (formValue.paceUnits === DistanceUnits.Km
-      ? formValue.units === DistanceUnits.Km
+      ? formValue.distanceUnit === DistanceUnits.Km
         ? 1
         : 0.621371
-      : formValue.units === DistanceUnits.Mile
+      : formValue.distanceUnit === DistanceUnits.Mile
       ? 1
       : 1.60934);
 
@@ -51,10 +51,10 @@ export function timeResult(formValue: calculationForm): string {
     (3600 *
       Number(formValue.customDistance) *
       (formValue.paceUnits === DistanceUnits.Km
-        ? formValue.units === DistanceUnits.Km
+        ? formValue.distanceUnit === DistanceUnits.Km
           ? 1
           : 1.60934
-        : formValue.units === DistanceUnits.Mile
+        : formValue.distanceUnit === DistanceUnits.Mile
         ? 1
         : 0.621371)) /
     paceFrHour;

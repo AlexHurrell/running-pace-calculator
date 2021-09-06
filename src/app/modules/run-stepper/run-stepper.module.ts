@@ -17,12 +17,14 @@ import { CalculatePageComponent } from './pages/calculate-page/calculate-page.co
 import { RouterModule } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { ResultsComponent } from './components/results/results.component';
+import { CalculateAreaComponent } from './components/calculate-area/calculate-area.component';
 
 @NgModule({
   declarations: [
     RunSelectionPageComponent,
     CalculatePageComponent,
     ResultsComponent,
+    CalculateAreaComponent,
   ],
   imports: [
     CommonModule,

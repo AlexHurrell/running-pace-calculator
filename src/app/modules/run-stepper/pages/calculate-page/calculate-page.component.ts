@@ -7,12 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Choices } from '../run-selection-page/run-selection-page.component';
-import { MatSelectChange } from '@angular/material/select';
-import {
-  Distance,
-  DistanceLength,
-  DistanceUnits,
-} from '../../models/models';
+import { Distance, DistanceLength, DistanceUnits } from '../../models/models';
 import {
   paceResult,
   distanceResult,
@@ -65,7 +60,7 @@ export class CalculatePageComponent implements OnInit {
     },
   ];
 
-  distanceUnit: DistanceUnits = DistanceUnits.Km;
+  // distanceUnit: DistanceUnits = DistanceUnits.Km;
 
   paceUnits = [DistanceUnits.Km, DistanceUnits.Mile];
 
@@ -74,8 +69,6 @@ export class CalculatePageComponent implements OnInit {
   choice: Choices | null | string;
 
   result: string;
-
-  selectedDistance: DistanceLength | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -99,15 +92,15 @@ export class CalculatePageComponent implements OnInit {
         this.form.reset();
 
         this.form.controls.paceUnits.setValue(DistanceUnits.Km);
-        this.form.controls.units.setValue(DistanceUnits.Km);
-        this.distanceUnit = DistanceUnits.Km;
+        this.form.controls.distanceUnit.setValue(DistanceUnits.Km);
+        // this.distanceUnit = DistanceUnits.Km;
       }
 
       this.result = '';
     });
 
     this.form = this.formBuilder.group({
-      units: [DistanceUnits.Km, Validators.required],
+      distanceUnit: [DistanceUnits.Km, Validators.required],
       customDistance: ['', this.isRequired(Choices.Distance)],
       time: this.formBuilder.group(
         {
@@ -150,42 +143,39 @@ export class CalculatePageComponent implements OnInit {
     };
   }
 
-  classicDistance(event?: MatSelectChange) {
+  classicDistance(params?: any) {
+    const { selectedDistance, event, distanceUnit } = params;
     if (!event) {
-      if (this.selectedDistance) {
-        if (this.distanceUnit === DistanceUnits.Km) {
+      if (selectedDistance) {
+        if (distanceUnit === DistanceUnits.Km) {
           this.form.patchValue({
-            customDistance: this.selectedDistance.km,
-            units: this.distanceUnit,
+            customDistance: selectedDistance.km,
+            distanceUnit,
           });
         } else {
           this.form.patchValue({
-            customDistance: this.selectedDistance.miles,
-            units: this.distanceUnit,
+            customDistance: selectedDistance.miles,
+            distanceUnit,
           });
         }
       } else {
         this.form.patchValue({
-          units: this.distanceUnit,
+          distanceUnit,
         });
       }
     } else {
-      if (this.distanceUnit === DistanceUnits.Km) {
+      if (distanceUnit === DistanceUnits.Km) {
         this.form.patchValue({
           customDistance: event.value.km,
-          units: this.distanceUnit,
+          distanceUnit,
         });
       } else {
         this.form.patchValue({
           customDistance: event.value.miles,
-          units: this.distanceUnit,
+          distanceUnit,
         });
       }
     }
-  }
-
-  distanceChange() {
-    if (this.selectedDistance) this.selectedDistance = null;
   }
 
   oneRequired(choice: Choices, choice2?: Choices) {

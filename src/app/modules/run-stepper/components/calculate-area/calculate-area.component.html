@@ -1,0 +1,191 @@
+<div class="input-area" [formGroup]="form">
+  <div class="mb-3">
+    <button
+      class="mr-3"
+      [color]="choice === choices.Time ? 'accent' : ''"
+      [routerLink]="['../time']"
+      mat-raised-button
+      [disableRipple]="true"
+    >
+      Time
+    </button>
+
+    <button
+      class="mr-3"
+      [color]="choice === choices.Pace ? 'accent' : ''"
+      [routerLink]="['../pace']"
+      mat-raised-button
+      [disableRipple]="true"
+    >
+      Pace
+    </button>
+
+    <button
+      class="mr-3"
+      [color]="choice === choices.Distance ? 'accent' : ''"
+      [routerLink]="['../distance']"
+      mat-raised-button
+      [disableRipple]="true"
+    >
+      Distance
+    </button>
+  </div>
+  <section
+    class="distance"
+    *ngIf="choice === choices.Time || choice === choices.Pace"
+  >
+    <h4>Distance</h4>
+    <mat-form-field class="small-field mr-3" appearance="fill">
+      <mat-label>Custom</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        max="500"
+        formControlName="customDistance"
+        (keydown)="distanceChangeEmitter()"
+      />
+    </mat-form-field>
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Units</mat-label>
+      <mat-select
+        (selectionChange)="
+          classicDistanceEmitter(undefined, undefined, distanceUnit)
+        "
+        [(ngModel)]="distanceUnit"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <mat-option value="km">km</mat-option>
+        <mat-option value="mile">mile</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="mx-3"> or </span>
+    <mat-form-field class="medium-field" appearance="fill">
+      <mat-label>Classic</mat-label>
+      <mat-select
+        [(value)]="selectedDistance"
+        (selectionChange)="
+          classicDistanceEmitter($event, selectedDistance, distanceUnit)
+        "
+      >
+        <mat-option
+          *ngFor="let distance of distances"
+          [value]="distance.length"
+        >
+          {{ distance.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section
+    class="time"
+    *ngIf="choice === choices.Distance || choice === choices.Pace"
+    formGroupName="time"
+  >
+    <h4>Time</h4>
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Hours</mat-label>
+      <input matInput min="0" type="number" formControlName="hours" />
+    </mat-form-field>
+
+    <span class="mx-3">:</span>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Minutes</mat-label>
+      <input
+        matInput
+        min="0"
+        max="59"
+        type="number"
+        formControlName="minutes"
+      />
+    </mat-form-field>
+
+    <span class="mx-3">:</span>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Seconds</mat-label>
+      <input
+        matInput
+        min="0"
+        max="59"
+        type="number"
+        formControlName="seconds"
+      />
+    </mat-form-field>
+  </section>
+
+  <section
+    class="pace"
+    *ngIf="choice === choices.Time || choice === choices.Distance"
+  >
+    <h4>Pace</h4>
+
+    <ng-container formGroupName="pace">
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Minutes</mat-label>
+        <input
+          matInput
+          max="59"
+          min="0"
+          type="number"
+          formControlName="minutes"
+        />
+      </mat-form-field>
+
+      <span class="mx-3">:</span>
+
+      <mat-form-field class="small-field" appearance="fill">
+        <mat-label>Seconds</mat-label>
+        <input
+          matInput
+          max="59"
+          min="0"
+          type="number"
+          formControlName="seconds"
+        />
+      </mat-form-field>
+    </ng-container>
+
+    <span class="mx-3">per</span>
+
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Units</mat-label>
+      <mat-select formControlName="paceUnits">
+        <mat-option *ngFor="let unit of paceUnits" [value]="unit">
+          {{ unit }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section *ngIf="choice === choices.Pace">
+    <h4>Pace (output)</h4>
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Units</mat-label>
+      <mat-select formControlName="paceUnits">
+        <mat-option *ngFor="let unit of paceUnits" [value]="unit">
+          {{ unit }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+
+  <section class="units mb-4" *ngIf="choice === choices.Distance">
+    <h4>Distance (output)</h4>
+    <mat-form-field class="small-field" appearance="fill">
+      <mat-label>Units</mat-label>
+      <mat-select
+        (selectionChange)="
+          classicDistanceEmitter(undefined, undefined, distanceUnit)
+        "
+        [(ngModel)]="distanceUnit"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <mat-option value="km">km</mat-option>
+        <mat-option value="mile">mile</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </section>
+</div>

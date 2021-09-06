@@ -16,7 +16,7 @@ export enum DistanceUnits {
 }
 
 export interface calculationForm {
-  units: DistanceUnits;
+  distanceUnit: DistanceUnits;
   time: {
     hours: string;
     minutes: string;
