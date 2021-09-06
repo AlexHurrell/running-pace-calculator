@@ -50,7 +50,7 @@
       <mat-label>Units</mat-label>
       <mat-select
         (selectionChange)="
-          classicDistanceEmitter(undefined, undefined, distanceUnit)
+          classicDistanceEmitter(undefined, selectedDistance, distanceUnit)
         "
         [(ngModel)]="distanceUnit"
         [ngModelOptions]="{ standalone: true }"
@@ -178,7 +178,7 @@
       <mat-label>Units</mat-label>
       <mat-select
         (selectionChange)="
-          classicDistanceEmitter(undefined, undefined, distanceUnit)
+          classicDistanceEmitter(undefined, selectedDistance, distanceUnit)
         "
         [(ngModel)]="distanceUnit"
         [ngModelOptions]="{ standalone: true }"
