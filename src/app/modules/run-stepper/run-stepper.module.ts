@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { ResultsComponent } from './components/results/results.component';
 import { CalculateAreaComponent } from './components/calculate-area/calculate-area.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CalculateAreaComponent } from './components/calculate-area/calculate-ar
     CalculatePageComponent,
     ResultsComponent,
     CalculateAreaComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     CommonModule,
