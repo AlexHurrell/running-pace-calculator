@@ -99,4 +99,11 @@
     your pace would need to be
     <h1>{{ this.result }} per {{ formValue.paceUnits }}.</h1>
   </h2>
+  <div class="d-flex justify-content-center">
+    <img
+      class="img-fluid"
+      *ngIf="!result"
+      src="/assets/undraw_fitness_stats_sht6.svg"
+    />
+  </div>
 </div>
